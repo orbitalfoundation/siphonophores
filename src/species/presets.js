@@ -94,7 +94,7 @@ const OVERRIDES = {
       palpon: { count: 13, size: 0.085, skirt: 1.0, color: '#ff9ec2' },
       bract: { count: 0 } },
     gel: { tint: '#bfe0ff', rim: 1.2, interior: 0.24, iridescence: 0.5 },
-    biolum: { intensity: 0.18, color: '#7fffe0', pulse: 0.5 },
+    biolum: { intensity: 0.09, color: '#7fffe0', pulse: 0.5 },
   },
 
   forskalia: {
@@ -211,7 +211,7 @@ const OVERRIDES = {
       tentacle: { length: 0.35, tentilla: 5, curl: 0.4 },
       bract: { count: 6, size: 0.028 } },
     gel: { tint: '#dfeeff', rim: 1.3, interior: 0.2, iridescence: 0.5 },
-    biolum: { intensity: 0.14, color: '#6fb0ff', pulse: 0.6 }, // blanch + blue glow
+    biolum: { intensity: 0.07, color: '#6fb0ff', pulse: 0.6 }, // blanch + blue glow
   },
 };
 

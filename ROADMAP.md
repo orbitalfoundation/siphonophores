@@ -26,12 +26,16 @@ Legend: ⭐ recommended next · 🟢 cheap (infra exists) · 🟡 medium · 🔴
 ## Phase 2 — Material & light 🟡
 *The gel is good; push it toward the real glassy, iridescent, bioluminescent look.*
 
-- [ ] **Thin-film iridescence** on the gel (real multilayer, not just a hue shift) —
-      *Physalia*'s float and *Gymnopraia*'s structural blue.
+- [x] ✅ **Animated iridescent shimmer + cephalopod colour ripple** on the gel
+      (spectral sheen + travelling colour bands). *(Still want real multilayer
+      thin-film for Physalia's float / Gymnopraia's structural blue.)*
 - [ ] **Hippopodius blanch.** Its signature: glassy → milky-white opaque flash when
       disturbed, with a blue luminescent pulse. A one-parameter animated defense.
 - [ ] **Subsurface / volumetric glow** for the float and thick zooids.
-- [ ] **A gentle current** that sways the whole colony and drifts the marine snow.
+- [x] ✅ **Bloom** post-processing — the deep-sea glow.
+- [x] ✅ **Lazy spiralling drift** — the colony arcs and turns through the water.
+- [x] ✅ **Richer black water** — hue-tinted gradient + dense twinkling marine snow.
+- [ ] **A gentle directional current** that bends the stem and streams the snow.
 
 ## Phase 3 — The genome & sharing 🟢
 *A colony already **is** its parameter tree — the fish project's trick ports directly.*

@@ -38,6 +38,11 @@ export class SiphonophoreRig extends THREE.Group {
     const yLo = tip.y;
     this.span = Math.max(yHi - yLo, this.curve.len * 0.5);
     this.centreY = (yHi + yLo) * 0.5;
+
+    // Size-independent shimmer/ripple band spacing.
+    const invSpan = 1 / this.span;
+    this.gelMat.uniforms.uInvSpan.value = invSpan;
+    if (this._stemMat) this._stemMat.uniforms.uInvSpan.value = invSpan;
   }
 
   _buildStem() {
@@ -237,9 +242,18 @@ export class SiphonophoreRig extends THREE.Group {
     this.gelMat.uniforms.uTime.value = this.t;
     this._stemMat.uniforms.uPulse.value = biolumPulse;
 
-    // Gentle whole-colony sway so it hangs alive, not frozen.
-    this.rotation.z = Math.sin(this.t * 0.35) * 0.03;
-    this.rotation.x = Math.cos(this.t * 0.27) * 0.02;
+    // Whole-colony life: a lazy spiralling drift through the water, a slow turn so
+    // it's seen from every side, and a pendulum sway of the hanging stem — the
+    // unhurried arcing motion these have when you swim with them.
+    const A = this.span;
+    this.position.set(
+      Math.sin(this.t * 0.13) * A * 0.05 + Math.sin(this.t * 0.05) * A * 0.03,
+      Math.sin(this.t * 0.09) * A * 0.03,
+      Math.cos(this.t * 0.11) * A * 0.05
+    );
+    this.rotation.y = this.t * 0.09 + Math.sin(this.t * 0.06) * 0.35;
+    this.rotation.z = Math.sin(this.t * 0.3) * 0.06 + Math.sin(this.t * 0.13) * 0.03;
+    this.rotation.x = Math.cos(this.t * 0.23) * 0.045;
   }
 
   dispose() {

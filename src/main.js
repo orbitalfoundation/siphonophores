@@ -1,5 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import GUI from 'lil-gui';
 
 import { makeSpecies, SPECIES_ORDER, SPECIES_LABELS } from './species/presets.js';
@@ -28,6 +32,14 @@ controls.maxDistance = 2000;
 
 const env = buildEnvironment(scene, renderer);
 const snow = buildMarineSnow(scene);
+
+// Bloom: the deep-sea glow. Additive gel + bioluminescence bleed light past their
+// edges, so the colony reads as luminous rather than plastic.
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.65, 0.5, 0.5);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
 
 let params = makeSpecies('nanomia');
 let rig = null;
@@ -152,6 +164,22 @@ fLook.add(params.biolum, 'intensity', 0, 0.5, 0.01).name('bioluminescence').list
 fLook.addColor(params.biolum, 'color').name('biolum colour').listen().onChange(rb);
 fLook.close();
 
+// -- Glow & shimmer (live uniform updates, no rebuild)
+const fGlow = gui.addFolder('glow & shimmer');
+fGlow.add(bloom, 'strength', 0, 2.5, 0.01).name('bloom');
+fGlow.add(bloom, 'radius', 0, 1.5, 0.01).name('bloom spread');
+fGlow.add(bloom, 'threshold', 0, 1, 0.01).name('bloom threshold');
+const setGel = (k, v) => {
+  if (!rig) return;
+  rig.gelMat.uniforms[k].value = v;
+  if (rig._stemMat) rig._stemMat.uniforms[k].value = v;
+};
+fGlow.add(params.gel, 'shimmer', 0, 1.2, 0.01).name('iridescent shimmer').listen()
+  .onChange((v) => setGel('uShimmer', v));
+fGlow.add(params.gel, 'chroma', 0, 1, 0.01).name('colour ripple').listen()
+  .onChange((v) => setGel('uChroma', v));
+fGlow.close();
+
 const fScene = gui.addFolder('scene');
 fScene.add(ui, 'autoRotate').name('auto-rotate').onChange((v) => (controls.autoRotate = v));
 fScene.add(ui, 'paused').name('pause');
@@ -187,7 +215,7 @@ function animate() {
   snow.update(dt);
   env.update(clock.elapsedTime, camera);
   controls.update();
-  renderer.render(scene, camera);
+  composer.render();
 
   frames++; fpsT += dt;
   if (fpsT >= 0.5) { fps = Math.round(frames / fpsT); frames = 0; fpsT = 0; }
@@ -199,6 +227,7 @@ addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
 });
 
 window.SIPHO = { get params() { return params; }, rig: () => rig, setSpecies };

@@ -80,6 +80,14 @@ blend rebuilds cleanly), so you can slide a man o' war into a Nanomia.
   shingling).
 - **Appearance** — gel tint, fresnel rim glow, interior fill, iridescence,
   bioluminescence intensity + colour.
+- **Glow & shimmer** — bloom (the deep-sea halo), an animated **comb-jelly
+  iridescent shimmer** (a spectral sheen that drifts over the gel), and a
+  **cephalopod-style colour ripple** (travelling bands of glowing colour sweeping
+  down the body). Leaning slightly cartoony on purpose — the aim is the *feeling* of
+  swimming with these, not a museum plate.
+
+The whole colony also **drifts in lazy spiralling arcs** and turns slowly, hanging
+alive in a black water rich with twinkling marine snow — rather than posed stiff.
 
 ## How it's built
 

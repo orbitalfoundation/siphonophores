@@ -97,6 +97,8 @@ export function defaults() {
       interior: 0.22, // faint interior fill
       opacity: 0.5,
       iridescence: 0.3,
+      shimmer: 0.35, // animated comb-jelly spectral sheen
+      chroma: 0.18, // travelling cephalopod-style colour bands
     },
 
     // Bioluminescence: baseline glow + a slow pulse. Blackwater loves this.
