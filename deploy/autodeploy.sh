@@ -37,5 +37,15 @@ npm run build
 echo "› sync -> $DEST"
 rsync -a --delete dist/ "$DEST"/
 
+# Keep the Caddy config current too — autodeploy used to sync only dist/, so a
+# change to cache headers (or any Caddyfile edit) never reached the VM. Reload
+# gracefully when it actually changed.
+if [ -f deploy/Caddyfile ] && ! cmp -s deploy/Caddyfile /srv/Caddyfile 2>/dev/null; then
+  cp deploy/Caddyfile /srv/Caddyfile
+  docker exec sipho caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile 2>/dev/null \
+    || docker restart sipho >/dev/null
+  echo "› Caddyfile changed — reloaded Caddy"
+fi
+
 echo "$remote_sha" > "$STATE"
 echo "✓ deployed $remote_sha"

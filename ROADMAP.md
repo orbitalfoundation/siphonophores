@@ -12,9 +12,11 @@ Legend: ⭐ recommended next · 🟢 cheap (infra exists) · 🟡 medium · 🔴
 ## Phase 1 — Life in the motion 🟡 ⭐
 *The colony is anatomically right and pulses metachronally; now make it feel alive.*
 
-- [ ] **Tentacle drift & lure flick.** Tentilla currently hang as static additive
-      lines. Give them per-segment noise sway, and make *Erenna*/*Resomia* lures
-      *flick* (the twitching prey-mimic motion that's their whole trick).
+- [x] ✅ **Body undulation.** A travelling helical wave runs down the stem and every
+      zooid re-poses from its arclength each frame — the colony snakes and curls in
+      place instead of hanging rigid. The stem is now a live polyline, not a tube.
+- [x] ✅ **Tentacle drift.** Tentilla wave with a travelling wave along each filament.
+      *(Still want the Erenna/Resomia lure **flick** — the twitching prey-mimic.)*
 - [ ] **Per-bell subumbrella.** Bells read as shells; add the inner nectosac cavity
       + velar aperture so the jet opening is visible when a bell contracts.
 - [ ] **Swim modes.** Toggle *cruise* (asynchronous metachronal wave) vs *escape*

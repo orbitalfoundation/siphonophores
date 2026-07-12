@@ -105,36 +105,31 @@ export function buildBract(size, facets, scale) {
   return geo;
 }
 
-// A tentacle with side-branch tentilla, built as a single line geometry (cheap,
-// and additive lines read as glowing threads). Returns { line: positions for a
-// LineSegments, lures: Vector3[] terminal lure points }.
+// A tentacle with side-branch tentilla. Returns the ordered rest-pose data (not a
+// baked geometry) so the rig can re-pose it every frame: `main` is the ordered
+// polyline of the filament (local frame, hanging along -Y); `branches` are tentilla
+// attached at a main-point index with a local offset (and a lure flag). The rig
+// adds a travelling wave along `u` so the filament curls and drifts alive.
 export function buildTentacle(tent, scale, rand) {
   const L = tent.length * scale * 6.0;
-  const segs = 60;
+  const segs = 44;
   const main = [];
-  const lures = [];
-  // The main filament droops and curls.
-  const pts = [];
   for (let i = 0; i <= segs; i++) {
     const u = i / segs;
     const droop = u * L;
     const curl = Math.sin(u * Math.PI * (1 + tent.curl * 4)) * tent.curl * L * 0.12;
     const sway = Math.cos(u * Math.PI * 2.5) * tent.curl * L * 0.05;
-    pts.push(new THREE.Vector3(curl, -droop, sway));
+    main.push(new THREE.Vector3(curl, -droop, sway));
   }
-  for (let i = 0; i < segs; i++) { main.push(pts[i], pts[i + 1]); }
-
-  // Tentilla: short side branches at intervals, each tipped with a lure point.
+  const branches = [];
   const n = tent.tentilla;
   for (let k = 0; k < n; k++) {
     const u = (k + 0.5) / n;
-    const i = Math.floor(u * segs);
-    const base = pts[i];
-    const dir = (k % 2 === 0 ? 1 : -1);
+    const i = Math.min(segs, Math.floor(u * segs));
+    const dir = k % 2 === 0 ? 1 : -1;
     const bl = L * 0.06 * (0.6 + rand());
-    const tip = base.clone().add(new THREE.Vector3(dir * bl, -bl * 0.4, (rand() - 0.5) * bl));
-    main.push(base, tip);
-    if (tent.lure > 0) lures.push(tip);
+    const off = new THREE.Vector3(dir * bl, -bl * 0.4, (rand() - 0.5) * bl);
+    branches.push({ i, off, lure: tent.lure > 0 });
   }
-  return { segments: main, lures };
+  return { main, branches, segs, L };
 }

@@ -103,6 +103,16 @@ export function defaults() {
 
     // Bioluminescence: baseline glow + a slow pulse. Blackwater loves this.
     biolum: { intensity: 0.0, color: '#46e6ff', pulse: 0.0 },
+
+    // Body motion — the colony undulates and curls in place as a travelling wave
+    // snakes down the stem, and the tentacles wave. This is what makes it read as
+    // a living animal rather than a specimen laid out on a table.
+    motion: {
+      amp: 0.05, // undulation amplitude (fraction of colony height)
+      waves: 1.5, // wavelengths of the travelling body wave
+      speed: 1.0, // how fast the wave travels
+      tentacle: 0.7, // tentacle wave strength
+    },
   };
 }
 

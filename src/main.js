@@ -164,6 +164,15 @@ fLook.add(params.biolum, 'intensity', 0, 0.5, 0.01).name('bioluminescence').list
 fLook.addColor(params.biolum, 'color').name('biolum colour').listen().onChange(rb);
 fLook.close();
 
+// -- Motion (the body wave — live, no rebuild)
+const fMotion = gui.addFolder('motion');
+const setMot = (k, v) => { if (rig) rig.p.motion[k] = v; };
+fMotion.add(params.motion, 'amp', 0, 0.15, 0.005).name('undulation').listen().onChange((v) => setMot('amp', v));
+fMotion.add(params.motion, 'waves', 0.2, 4, 0.05).name('body waves').listen().onChange((v) => setMot('waves', v));
+fMotion.add(params.motion, 'speed', 0, 3, 0.05).name('wave speed').listen().onChange((v) => setMot('speed', v));
+fMotion.add(params.motion, 'tentacle', 0, 2, 0.05).name('tentacle wave').listen().onChange((v) => setMot('tentacle', v));
+fMotion.close();
+
 // -- Glow & shimmer (live uniform updates, no rebuild)
 const fGlow = gui.addFolder('glow & shimmer');
 fGlow.add(bloom, 'strength', 0, 2.5, 0.01).name('bloom');
