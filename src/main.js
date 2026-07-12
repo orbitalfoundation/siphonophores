@@ -41,9 +41,10 @@ const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
-let params = makeSpecies('nanomia');
+const DEFAULT_ID = SPECIES_ORDER[Math.floor(Math.random() * SPECIES_ORDER.length)];
+let params = makeSpecies(DEFAULT_ID);
 let rig = null;
-let currentSpecies = 'nanomia';
+let currentSpecies = DEFAULT_ID;
 
 function frameCamera(preserve = false) {
   // A colony is tall and thin: frame so its full vertical extent fits with margin.
